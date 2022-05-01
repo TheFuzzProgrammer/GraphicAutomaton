@@ -63,6 +63,7 @@ namespace GraphicAutomaton {
 	private: System::Windows::Forms::Label^ translation_lbl;
 	private: System::Windows::Forms::Label^ label3;
 	private: cli::array<System::Windows::Forms::Label^>^ label_array;
+	private: int rpa = 10, rpb = 30;
 
 #pragma region  Start UI components
 		//Set the componenets
@@ -379,15 +380,22 @@ namespace GraphicAutomaton {
 		actual_status_point = this->label_array[a_s]->Location;
 		actual_status_point.X += 13;
 		last_status_point.X += 13;
-		aux_point.X = last_status_point.X + 10;
-		aux_point.Y = last_status_point.Y - 30;
-		aux_point2.X = actual_status_point.X + 10;
-		aux_point2.Y = actual_status_point.Y - 30;
+		aux_point.X = last_status_point.X + rpa;
+		aux_point.Y = last_status_point.Y - rpb;
+		aux_point2.X = actual_status_point.X + rpa;
+		aux_point2.Y = actual_status_point.Y - rpb;
 		this->pen->Color = Color::Lime; //x2-40 x1+40
 		if (actual_status_point.X != last_status_point.X){
 			Graphics^ pointer = this->FormPanel->CreateGraphics();
+			this->pen->Color = Color::FromArgb(125, 35, 242, 97);
 			pointer->DrawBezier(this->pen, actual_status_point, aux_point2, aux_point, last_status_point);
+			for (int x = 0; x < 256; x++) {
+				this->pen->Color = Color::FromArgb(200,0,x,0);
+				pointer->DrawBezier(this->pen, actual_status_point, aux_point2, aux_point, last_status_point);
+				_sleep(5);
+			}
 		}
+		this->rpb += 10;
 		
 	}
 	
